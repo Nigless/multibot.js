@@ -3,6 +3,7 @@
 	"main": "dist/app.js",
 	"scripts": {
 		"build": "webpack",
+		"start": "cd dist/ && node app.js && cd ..",
 		"lint": "eslint --fix ."
 	},
 	"devDependencies": {
