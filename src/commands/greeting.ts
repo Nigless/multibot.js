@@ -7,7 +7,7 @@ interface IConfig {
 }
 
 interface IMesages {
-	greeting: string;
+	message: string;
 	options: {
 		uppercase: string;
 	};
@@ -26,7 +26,7 @@ export default class Greeting implements ICommand {
 		this.key = this.config.key;
 
 		this.messages = messages.create<IMesages>('greeting', {
-			greeting: 'Hello!',
+			message: 'Hello!',
 			options: {
 				uppercase: 'HELLO!',
 			},
@@ -36,6 +36,6 @@ export default class Greeting implements ICommand {
 	}
 
 	public run(): Message {
-		return new Message(this.messages.greeting);
+		return new Message(this.messages.message);
 	}
 }
