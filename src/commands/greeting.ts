@@ -6,25 +6,36 @@ interface IConfig {
 	key: string;
 }
 
+interface IMesages {
+	greeting: string;
+	options: {
+		uppercase: string;
+	};
+}
+
 export default class Greeting implements ICommand {
 	public key: string;
+	public options: {
+		'-u --uppercase': string;
+	};
 	private config: IConfig;
-	private messages: { greet: string | string[] };
+	private messages: IMesages;
 
 	constructor(config: Config, messages: Config) {
-		this.config = config.create<IConfig>('hello', { key: 'hello' });
+		this.config = config.create<IConfig>('greeting', { key: 'hello' });
 		this.key = this.config.key;
 
-		this.messages = messages.create<{ greet: string | string[] }>('hello', {
-			greet: 'Hi!',
+		this.messages = messages.create<IMesages>('greeting', {
+			greeting: 'Hello!',
+			options: {
+				uppercase: 'HELLO!',
+			},
 		});
+
+		this.options = { '-u --uppercase': this.messages.options.uppercase };
 	}
 
 	public run(): Message {
-		const greet = this.messages.greet;
-		if (Array.isArray(greet)) {
-			return new Message(greet[Math.floor(Math.random() * greet.length)]);
-		}
-		return new Message(greet);
+		return new Message(this.messages.greeting);
 	}
 }
