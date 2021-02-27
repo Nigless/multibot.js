@@ -32,7 +32,9 @@ export default class Parser {
 			command = this.commands.find((element) => element.key === options._[0]);
 			if (command === undefined)
 				return new Message(
-					'Неизвестная комманда: {COMMAND}'.replace('{COMMAND}', options._[0]),
+					this.replace('Неизвестная комманда: {COMMAND}', {
+						COMMAND: options._[0],
+					}),
 				);
 
 			const keys = Object.keys(options);
@@ -47,14 +49,15 @@ export default class Parser {
 
 				if (option === undefined)
 					return new Message(
-						'Неизвестный параметр: {OPTION}'.replace('{OPTION}', key),
+						this.replace('Неизвестный параметр: {OPTION}', { OPTION: key }),
 					);
 				const value = options[key];
 				if (Type[option.type] !== typeof value)
 					return new Message(
-						'Значение {VALUE} не соответствует типу {TYPE}'
-							.replace('{VALUE}', value)
-							.replace('{TYPE}', Type[option.type]),
+						this.replace('Значение "{VALUE}" не соответствует типу <{TYPE}>', {
+							VALUE: value,
+							TYPE: Type[option.type],
+						}),
 					);
 				commandOptions[option.name] = value;
 			}
@@ -62,5 +65,18 @@ export default class Parser {
 		}
 
 		return command.run(commandOptions);
+	}
+
+	private replace(
+		string: string,
+		searchValues: { [key: string]: string },
+	): string {
+		for (const key in searchValues) {
+			string = string.replace(
+				new RegExp(`(?<!\\\\)\\{${key}\\}`),
+				searchValues[key],
+			);
+		}
+		return string.replace('\\{', '{');
 	}
 }
