@@ -1,8 +1,20 @@
 ﻿import IMessage from '../message';
 
-export default interface ICommand<Options = void> {
-	key: string;
-	options: { [key: string]: string };
+export enum Type {
+	string,
+	boolean,
+	number,
+}
 
-	run(options: Options): IMessage;
+export type Option = {
+	name: string;
+	type: Type;
+	alias: string;
+};
+
+export default interface ICommand {
+	key: string;
+	options: Option[];
+
+	run(options: unknown): IMessage;
 }

@@ -3,7 +3,7 @@ import yaml from 'js-yaml';
 
 type Data = { [key: string]: unknown };
 
-export default class Config {
+export default class Config<Type> {
 	private data: Data;
 	private fileName: string;
 
@@ -13,7 +13,7 @@ export default class Config {
 		this.load();
 	}
 
-	public create<Type>(id: string, defaultConfig: Type): Type {
+	public create(id: string, defaultConfig: Type): Type {
 		if (this.data[id] === undefined) {
 			this.data[id] = defaultConfig;
 		}
