@@ -54,10 +54,14 @@ export default class Parser {
 				const value = options[key];
 				if (Type[option.type] !== typeof value)
 					return new Message(
-						this.replace('Значение "{VALUE}" не соответствует типу <{TYPE}>', {
-							VALUE: value,
-							TYPE: Type[option.type],
-						}),
+						this.replace(
+							'Значение "{VALUE}" не соответствует типу <{TYPE}> параметра "{OPTION}"',
+							{
+								VALUE: value,
+								TYPE: Type[option.type],
+								OPTION: option.name,
+							},
+						),
 					);
 				commandOptions[option.name] = value;
 			}
