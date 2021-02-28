@@ -1,4 +1,4 @@
-﻿import IMessage from '../message';
+﻿import Message from '../message';
 
 export enum Type {
 	string,
@@ -16,5 +16,5 @@ export default interface ICommand {
 	key: string;
 	options: Option[];
 
-	run(options: unknown): IMessage;
+	run(options: unknown): Message;
 }
