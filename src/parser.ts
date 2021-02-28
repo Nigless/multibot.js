@@ -28,12 +28,17 @@ export default class Parser {
 		});
 	}
 
-	public run(string: string): Message {
+	public run(input: string, withPrefix = true): Message | undefined {
+		if (withPrefix) {
+			const temporary = input.replace(/^\\\\\s/, '');
+			if (temporary[0] === input[0]) return;
+			input = temporary;
+		}
 		const commandOptions: Record<string, unknown> = {};
 		let command;
 
 		{
-			const options = parser(string);
+			const options = parser(input);
 			if (options._[0] === '') return new Message('?');
 
 			command = this.commands.find((element) => element.key === options._[0]);
@@ -85,6 +90,6 @@ export default class Parser {
 				searchValues[key],
 			);
 		}
-		return string.replace('\\{', '{');
+		return string.replace('\\{', '{').replace('\\}', '}');
 	}
 }
