@@ -1,7 +1,9 @@
 ﻿import fs from 'fs';
 import yaml from 'js-yaml';
 
-type Data = { [key: string]: unknown };
+interface Data {
+	[key: string]: unknown;
+}
 
 export default class Config<Type> {
 	private data: Data;
