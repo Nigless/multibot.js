@@ -27,7 +27,7 @@ export default class Parser {
 
 		{
 			const options = parser(string.split(' '));
-			if (options._.length === 0) return new Message('?');
+			if (options._[0] === '') return new Message('?');
 
 			command = this.commands.find((element) => element.key === options._[0]);
 			if (command === undefined)
