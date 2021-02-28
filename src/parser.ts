@@ -15,10 +15,17 @@ export type MessagesConfig = Config<MessagesConfigType>;
 
 export default class Parser {
 	private commands: ICommand[];
+	private messages: MessagesConfigType;
 	constructor() {
 		const config = new Config<MainConfigType>('config');
 		const messages = new Config<MessagesConfigType>('messages');
 		this.commands = [new Greeting(config, messages)];
+		this.messages = messages.create('parser', {
+			'err.unknown-command': 'Unknown command: {COMMAND}',
+			'err.unknown-option': 'Unknown option: {OPTION}',
+			'err.types-do-not-match':
+				'The value "{VALUE}" does not match the type <{TYPE}> of the --{OPTION}',
+		});
 	}
 
 	public run(string: string): Message {
@@ -32,7 +39,7 @@ export default class Parser {
 			command = this.commands.find((element) => element.key === options._[0]);
 			if (command === undefined)
 				return new Message(
-					this.replace('Неизвестная комманда: {COMMAND}', {
+					this.replace(this.messages['err.unknown-command'], {
 						COMMAND: options._[0],
 					}),
 				);
@@ -49,19 +56,16 @@ export default class Parser {
 
 				if (option === undefined)
 					return new Message(
-						this.replace('Неизвестный параметр: {OPTION}', { OPTION: key }),
+						this.replace(this.messages['err.unknown-option'], { OPTION: key }),
 					);
 				const value = options[key];
 				if (Type[option.type] !== typeof value)
 					return new Message(
-						this.replace(
-							'Значение "{VALUE}" не соответствует типу <{TYPE}> параметра "{OPTION}"',
-							{
-								VALUE: value,
-								TYPE: Type[option.type],
-								OPTION: option.name,
-							},
-						),
+						this.replace(this.messages['err.types-do-not-match'], {
+							VALUE: value,
+							TYPE: Type[option.type],
+							OPTION: option.name,
+						}),
 					);
 				commandOptions[option.name] = value;
 			}
