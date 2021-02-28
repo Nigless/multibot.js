@@ -33,7 +33,7 @@ export default class Parser {
 		let command;
 
 		{
-			const options = parser(string.split(' '));
+			const options = parser(string);
 			if (options._[0] === '') return new Message('?');
 
 			command = this.commands.find((element) => element.key === options._[0]);
