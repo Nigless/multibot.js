@@ -22,7 +22,7 @@ export default class Parser {
 
 	public run(input: string, withPrefix = true): Message | undefined {
 		if (withPrefix) {
-			const temporary = input.replace(/^\\\\\s/, '');
+			const temporary = input.replace(/^\\\s/, '');
 			if (temporary[0] === input[0]) return;
 			input = temporary;
 		}
