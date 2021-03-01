@@ -16,8 +16,10 @@ export default class Greeting implements ICommand {
 	];
 
 	public run(options: Arguments): Message {
-		console.log(options);
-
-		return new Message('hi');
+		let message = 'Hi!';
+		if (options.uppercase) {
+			message = message.toUpperCase();
+		}
+		return new Message(message);
 	}
 }
