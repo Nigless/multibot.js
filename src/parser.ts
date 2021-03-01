@@ -1,17 +1,7 @@
 ﻿import parser, { Arguments } from 'yargs-parser';
 import { IOption } from './commands/icommand';
 import Root from './commands/root';
-import Config from './config';
 import Message from './message';
-
-interface MainConfigType {
-	[key: string]: string | number;
-}
-interface MessagesConfigType {
-	[key: string]: string;
-}
-export type MainConfig = Config<MainConfigType>;
-export type MessagesConfig = Config<MessagesConfigType>;
 
 export default class Parser {
 	private rootCommand: Root;
