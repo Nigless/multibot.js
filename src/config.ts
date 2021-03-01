@@ -18,8 +18,8 @@ export default class Config<Type> {
 	public create(id: string, defaultConfig: Type): Type {
 		if (this.data[id] === undefined) {
 			this.data[id] = defaultConfig;
+			this.save();
 		}
-		this.save();
 		return this.data[id] as Type;
 	}
 
