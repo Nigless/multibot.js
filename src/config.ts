@@ -1,5 +1,6 @@
 ﻿import fs from 'fs';
 import yaml from 'js-yaml';
+import path from 'path';
 
 interface Data {
 	[key: string]: unknown;
@@ -7,10 +8,10 @@ interface Data {
 
 export default class Config<Type> {
 	private data: Data;
-	private fileName: string;
+	private pathToFile: string;
 
-	constructor(fileName: string) {
-		this.fileName = `./${fileName}.yml`;
+	constructor(pathToFile: string) {
+		this.pathToFile = path.join(__dirname, `${pathToFile}.yml`);
 		this.data = {};
 		this.load();
 	}
@@ -24,15 +25,15 @@ export default class Config<Type> {
 	}
 
 	public save(): void {
-		fs.writeFileSync(this.fileName, yaml.dump(this.data));
+		fs.writeFileSync(this.pathToFile, yaml.dump(this.data));
 	}
 
 	public load(): void {
 		let fileData: string;
 		try {
-			fileData = fs.readFileSync(this.fileName, 'utf8');
+			fileData = fs.readFileSync(this.pathToFile, 'utf8');
 		} catch {
-			fs.writeFileSync(this.fileName, '');
+			fs.writeFileSync(this.pathToFile, '');
 			return;
 		}
 
