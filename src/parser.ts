@@ -40,17 +40,4 @@ export default class Parser {
 		}
 		return parser(input, config);
 	}
-
-	private replace(
-		string: string,
-		searchValues: { [key: string]: string },
-	): string {
-		for (const key in searchValues) {
-			string = string.replace(
-				new RegExp(`(?<!\\\\)\\{${key}\\}`),
-				searchValues[key],
-			);
-		}
-		return string.replace('\\{', '{').replace('\\}', '}');
-	}
 }
