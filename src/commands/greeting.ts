@@ -1,36 +1,23 @@
 ﻿import Message from '../message';
-import { MainConfig, MessagesConfig } from '../parser';
-import ICommand, { Type } from './icommand';
+import ICommand, { IArguments, IOption } from './icommand';
 
-interface IOptions {
-	uppercase: boolean;
+interface Arguments extends IArguments {
+	uppercase?: boolean;
 }
 
 export default class Greeting implements ICommand {
-	public key: string;
-	public options = [
+	public key = 'hello';
+	public options: IOption[] = [
 		{
 			name: 'uppercase',
-			type: Type.boolean,
+			type: 'boolean',
 			alias: 'u',
 		},
 	];
-	private config;
-	private messages;
 
-	constructor(config: MainConfig, messages: MessagesConfig) {
-		this.config = config.create('greeting', { key: 'hello' });
-		this.key = this.config.key as string;
+	public run(options: Arguments): Message {
+		console.log(options);
 
-		this.messages = messages.create('greeting', {
-			message: 'Hello!',
-			'options.uppercase': 'HELLO!',
-		});
-	}
-
-	public run(options: IOptions): Message {
-		if (options.uppercase)
-			return new Message(this.messages.message.toUpperCase());
-		return new Message(this.messages.message);
+		return new Message('hi');
 	}
 }
