@@ -2,18 +2,13 @@
 import Message from '../message';
 import Parser from '../parser';
 
+export { IArguments };
+
 export interface IOption {
 	name: string;
 	type: 'boolean' | 'string' | 'number';
 	alias: string;
-}
-
-export { IArguments };
-
-export default interface ICommand {
-	key: string;
-	options: IOption[];
-	run: (options: IArguments) => Message;
+	description?: string;
 }
 
 export class WithSubCommand {
@@ -35,4 +30,11 @@ export class WithSubCommand {
 			);
 		return new Message('');
 	}
+}
+
+export default interface ICommand {
+	key: string;
+	options: IOption[];
+	description?: string;
+	run: (options: IArguments) => Message;
 }
