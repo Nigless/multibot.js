@@ -16,12 +16,12 @@ export default class Config<Type> {
 		this.load();
 	}
 
-	public create(id: string, defaultConfig: Type): Type {
-		if (this.data[id] === undefined) {
-			this.data[id] = defaultConfig;
+	public section(name: string, defaultConfig: Type): Type {
+		if (this.data[name] === undefined) {
+			this.data[name] = defaultConfig;
 			this.save();
 		}
-		return this.data[id] as Type;
+		return this.data[name] as Type;
 	}
 
 	public save(): void {
