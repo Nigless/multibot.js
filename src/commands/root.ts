@@ -21,7 +21,6 @@ export default class Root extends WithSubCommand {
 	}
 
 	public run(options: Arguments): Message {
-		console.log(options);
 		return this.runSubCommand(options._);
 	}
 }
