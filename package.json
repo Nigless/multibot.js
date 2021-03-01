@@ -24,6 +24,7 @@
 		"webpack-cli": "^4.5.0"
 	},
 	"dependencies": {
+		"eris": "^0.14.0",
 		"js-yaml": "^4.0.0",
 		"yargs-parser": "^20.2.6"
 	}
