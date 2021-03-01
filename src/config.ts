@@ -2,12 +2,10 @@
 import yaml from 'js-yaml';
 import path from 'path';
 
-interface Data {
-	[key: string]: unknown;
-}
+export type Section = Record<string, string>;
 
-export default class Config<Type> {
-	private data: Data;
+export default class Config<Type = Section> {
+	private data: Record<string, Type>;
 	private pathToFile: string;
 
 	constructor(pathToFile: string) {
@@ -16,12 +14,15 @@ export default class Config<Type> {
 		this.load();
 	}
 
-	public section(name: string, defaultConfig: Type): Type {
+	public section<LocalConfig extends Type>(
+		name: string,
+		defaultConfig: LocalConfig,
+	): LocalConfig {
 		if (this.data[name] === undefined) {
 			this.data[name] = defaultConfig;
 			this.save();
 		}
-		return this.data[name] as Type;
+		return this.data[name] as LocalConfig;
 	}
 
 	public save(): void {
@@ -37,6 +38,6 @@ export default class Config<Type> {
 			return;
 		}
 
-		this.data = (yaml.load(fileData) as Data) || {};
+		this.data = (yaml.load(fileData) as Record<string, Type>) || {};
 	}
 }
