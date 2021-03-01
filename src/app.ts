@@ -1,3 +1,4 @@
-﻿import Cli from './apis/cli';
+import Cli from './apis/cli';
+import Parser from './parser';
 
-new Cli();
+new Cli(new Parser());

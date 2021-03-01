@@ -1,8 +1,8 @@
-﻿import readline from 'readline';
+import readline from 'readline';
 import Parser from '../parser';
+
 export default class Cli {
-	constructor() {
-		const parser = new Parser();
+	constructor(parser: Parser) {
 		readline
 			.createInterface({
 				input: process.stdin,
