@@ -1,5 +1,6 @@
 ﻿import Message from '../message';
 import Parser from '../parser';
+import Echo from './echo';
 import Greeting from './greeting';
 import { IArguments, IOption, WithSubCommand } from './icommand';
 
@@ -17,7 +18,7 @@ export default class Root extends WithSubCommand {
 	];
 
 	constructor(parser: Parser) {
-		super(parser, [new Greeting()]);
+		super(parser, [new Greeting(), new Echo()]);
 	}
 
 	public run(options: Arguments): Message {
