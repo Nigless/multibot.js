@@ -13,17 +13,26 @@ export default class Parser {
 	public run(input: string, withPrefix = true): Message | undefined {
 		if (withPrefix) {
 			const temporary = input.replace(/^\\\s/, '');
-			if (temporary[0] === input[0]) return;
+			if (temporary[0] === input[0] || !temporary) return;
 			input = temporary;
 		}
 
+		const options = this.parseInput(input);
+		if (!options) return;
 		return this.rootCommand.run(
-			this.parse(input, this.rootCommand.options) as any,
+			this.parse(options, this.rootCommand.options) as any,
 		);
 	}
 
-	public parse(input: string | string[], options: IOption[]): Arguments {
+	public parseInput(input: string): string[] | undefined {
+		const matches = input.match(/("(\\.|[^"])*"|\\.|\S)+/g);
+		if (matches) return matches.map((math) => math.replace(/\\(.)/g, '$1'));
+		return;
+	}
+
+	public parse(input: string[], options: IOption[]): Arguments {
 		let config: parser.Options;
+
 		{
 			const temporary: any = {};
 			const push = (key: string, value: string) => {
