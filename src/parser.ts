@@ -20,7 +20,7 @@ export default class Parser {
 		const options = this.parseInput(input);
 		if (!options) return;
 		return this.rootCommand.run(
-			this.parse(options, this.rootCommand.options) as any,
+			this.parseOptions(options, this.rootCommand.options) as any,
 		);
 	}
 
@@ -30,7 +30,7 @@ export default class Parser {
 		return;
 	}
 
-	public parse(input: string[], options: IOption[]): Arguments {
+	public parseOptions(input: string[], options: IOption[]): Arguments {
 		let config: parser.Options;
 
 		{

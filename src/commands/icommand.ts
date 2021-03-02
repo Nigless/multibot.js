@@ -26,7 +26,7 @@ export class WithSubCommand {
 		);
 		if (subCommand !== undefined)
 			return subCommand.run(
-				this.parser.parse(input.slice(1), subCommand.options),
+				this.parser.parseOptions(input.slice(1), subCommand.options),
 			);
 		return new Message('');
 	}
