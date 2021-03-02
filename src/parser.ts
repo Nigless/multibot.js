@@ -1,5 +1,5 @@
-﻿import parser, { Arguments } from 'yargs-parser';
-import { IOption } from './commands/icommand';
+﻿import parser from 'yargs-parser';
+import { IArguments, IOption } from './commands/icommand';
 import Root from './commands/root';
 import Message from './message';
 
@@ -30,7 +30,7 @@ export default class Parser {
 		return;
 	}
 
-	public parseOptions(input: string[], options: IOption[]): Arguments {
+	public parseOptions(input: string[], options: IOption[]): IArguments {
 		let config: parser.Options;
 
 		{
