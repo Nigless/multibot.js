@@ -26,7 +26,7 @@ export default class Discord {
 
 		bot.on('messageCreate', (input) => {
 			const message = parser.run(input.content);
-			if (message !== undefined && message.text !== undefined) {
+			if (message !== undefined && message.text) {
 				bot.createMessage(input.channel.id, message.text);
 				logger.info({
 					COMMAND: input.content.replace(/"/g, '\\"').replace(/\n/g, '\\n'),
