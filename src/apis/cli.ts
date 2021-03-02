@@ -8,8 +8,9 @@ export default class Cli {
 				input: process.stdin,
 				output: process.stdout,
 			})
-			.addListener('line', (input) =>
-				console.log(parser.run(input, false)!.text),
-			);
+			.addListener('line', (input) => {
+				const message = parser.run(input, false);
+				if (message !== undefined && message.text) console.log(message.text);
+			});
 	}
 }
