@@ -1,4 +1,5 @@
 ﻿enum Log {
+	INFO,
 	WARN,
 	ERROR,
 	DEBUG,
@@ -13,7 +14,7 @@ export default class Logger<Type extends Record<string, string>> {
 	}
 
 	public info(data: Type): void {
-		console.info(this.format(data, Log.WARN));
+		console.info(this.format(data, Log.INFO));
 	}
 
 	public warn(data: Type): void {
