@@ -1,4 +1,4 @@
-﻿import parser from 'yargs-parser';
+﻿import yargs from 'yargs-parser';
 import { IArguments, IOption } from './commands/icommand';
 import Root from './commands/root';
 import Message from './message';
@@ -31,7 +31,7 @@ export default class Parser {
 	}
 
 	public parseOptions(input: string[], options: IOption[]): IArguments {
-		let config: parser.Options;
+		let config: yargs.Options;
 
 		{
 			const temporary: any = {};
@@ -47,6 +47,6 @@ export default class Parser {
 			temporary['configuration'] = { 'halt-at-non-option': true };
 			config = temporary;
 		}
-		return parser(input, config);
+		return yargs(input, config);
 	}
 }
