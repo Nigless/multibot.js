@@ -1,13 +1,11 @@
-﻿import parser, { Arguments } from 'yargs-parser';
-import { IOption } from './commands/icommand';
-import Root from './commands/root';
+﻿import Root from './commands/root';
 import Message from './message';
 
 export default class Parser {
 	private rootCommand: Root;
 
 	constructor() {
-		this.rootCommand = new Root(this);
+		this.rootCommand = new Root();
 	}
 
 	public run(input: string, withPrefix = true): Message | undefined {
@@ -17,36 +15,6 @@ export default class Parser {
 			input = temporary;
 		}
 
-		const options = this.parseInput(input);
-		if (!options) return;
-		return this.rootCommand.run(
-			this.parse(options, this.rootCommand.options) as any,
-		);
-	}
-
-	public parseInput(input: string): string[] | undefined {
-		const matches = input.match(/("(\\.|[^"])*"|\\.|\S)+/g);
-		if (matches) return matches.map((math) => math.replace(/\\(.)/g, '$1'));
-		return;
-	}
-
-	public parse(input: string[], options: IOption[]): Arguments {
-		let config: parser.Options;
-
-		{
-			const temporary: any = {};
-			const push = (key: string, value: string) => {
-				if (temporary[key] === undefined) temporary[key] = [];
-				temporary[key].push(value);
-			};
-			for (const option of options) {
-				push(option.type, option.alias);
-				if (temporary['alias'] === undefined) temporary['alias'] = {};
-				temporary['alias'][option.alias] = option.name;
-			}
-			temporary['configuration'] = { 'halt-at-non-option': true };
-			config = temporary;
-		}
-		return parser(input, config);
+		return this.rootCommand.run(input.split(/\s+/));
 	}
 }
